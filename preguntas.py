@@ -231,7 +231,13 @@ def pregunta_07():
     ]
 
     """
-    return
+
+    column2 = [int(row[1]) for row in data]
+    uniqueNumbers = list(set(column2))
+    result = [(number, [row[0] for row in data if int(row[1]) == number]) for number in uniqueNumbers]
+    result.sort()
+
+    return result
 
 
 def pregunta_08():
@@ -256,7 +262,13 @@ def pregunta_08():
     ]
 
     """
-    return
+
+    column2 = [int(row[1]) for row in data]
+    uniqueNumbers = list(set(column2))
+    result = [(number, sorted(list(set([row[0] for row in data if int(row[1]) == number])))) for number in uniqueNumbers]
+    result.sort()
+
+    return result
 
 
 def pregunta_09():
