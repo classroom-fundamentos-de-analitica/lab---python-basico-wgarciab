@@ -12,6 +12,40 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
+def pprint(data):
+    #
+    def get_format_string(data):
+        format_string = []
+        for i_col in range(len(data[0])):
+            lengths = [len(str(row[i_col])) for row in data]
+            max_length = max(lengths)
+            #
+            # Por ejemplo: "{:>10s}"
+            #
+            format_string.append("{:>" + str(max_length) + "s}")
+        return format_string
+
+    #
+    def print_data(format_string, data):
+        format_string = get_format_string(data)
+        for index, row in enumerate(data):
+            text = "    " if index == 0 else "{:2d}  ".format(index - 1)
+            for fmt, value in zip(format_string, row):
+                text += fmt.format(str(value)) + " "
+            if len(text) >= 106:
+                text = text[:100] + " [...]"
+            print(text)
+
+    #
+    format_string = get_format_string(data)
+    print_data(format_string, data)
+
+with open("data.csv", "r") as file:
+    data = file.readlines()
+data = [row.replace("\n", "") for row in data]
+data = [row.split("\t") for row in data]
+#pprint(data[0:10])
+
 
 def pregunta_01():
     """
@@ -21,7 +55,11 @@ def pregunta_01():
     214
 
     """
-    return
+
+    column2 = [int(field) for row in data for field in row[1]]
+    result = sum(column2)
+    
+    return result
 
 
 def pregunta_02():
@@ -39,7 +77,13 @@ def pregunta_02():
     ]
 
     """
-    return
+
+    column1 = [field for row in data for field in row[0]]
+    uniqueLetters = list(set(column1))
+    result = [(letter, column1.count(letter)) for letter in uniqueLetters]
+    result.sort()
+    
+    return result
 
 
 def pregunta_03():
