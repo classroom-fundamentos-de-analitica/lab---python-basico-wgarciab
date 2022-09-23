@@ -156,7 +156,18 @@ def pregunta_05():
     ]
 
     """
-    return
+
+    column1 = [row[0] for row in data]
+    uniqueLetters = list(set(column1))
+    result = [
+        (letter, 
+        max([int(row[1]) for row in data if row[0] == letter]), 
+        min([int(row[1]) for row in data if row[0] == letter])) 
+        for letter in uniqueLetters
+        ]
+    result.sort()
+
+    return result
 
 
 def pregunta_06():
@@ -181,7 +192,22 @@ def pregunta_06():
     ]
 
     """
-    return
+
+    column5Splitted = [row[4].split(",") for row in data]
+    flatList = [item for sublist in column5Splitted for item in sublist]
+    listDict = [row.split(":") for row in flatList]
+    keys = [row[0] for row in listDict]
+    uniqueKeys = list(set(keys))
+
+    result = [
+        (key, 
+        min([int(row[1]) for row in listDict if row[0] == key]), 
+        max([int(row[1]) for row in listDict if row[0] == key])) 
+        for key in uniqueKeys
+        ]
+    result.sort()
+
+    return result
 
 
 def pregunta_07():
