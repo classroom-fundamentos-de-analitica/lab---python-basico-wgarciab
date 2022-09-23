@@ -291,7 +291,17 @@ def pregunta_09():
     }
 
     """
-    return
+
+    column5Splitted = [row[4].split(",") for row in data]
+    flatList = [item for sublist in column5Splitted for item in sublist]
+    listDict = [row.split(":") for row in flatList]
+    keys = [row[0] for row in listDict]
+    uniqueKeys = list(set(keys))
+
+    result = [(key, keys.count(key)) for key in uniqueKeys]
+    result.sort()
+
+    return result
 
 
 def pregunta_10():
@@ -312,7 +322,15 @@ def pregunta_10():
 
 
     """
-    return
+
+    result = [
+        (row[0], 
+        len(row[3].split(",")), 
+        len(row[4].split(","))) 
+        for row in data
+    ]
+
+    return result
 
 
 def pregunta_11():
