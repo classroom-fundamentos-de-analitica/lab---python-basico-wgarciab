@@ -298,8 +298,7 @@ def pregunta_09():
     keys = [row[0] for row in listDict]
     uniqueKeys = list(set(keys))
 
-    result = [(key, keys.count(key)) for key in uniqueKeys]
-    result.sort()
+    result = {key : keys.count(key) for key in sorted(uniqueKeys)}
 
     return result
 
