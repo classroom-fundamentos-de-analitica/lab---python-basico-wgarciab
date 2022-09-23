@@ -56,7 +56,7 @@ def pregunta_01():
 
     """
 
-    column2 = [int(field) for row in data for field in row[1]]
+    column2 = [int(row[1]) for row in data]
     result = sum(column2)
     
     return result
@@ -78,7 +78,7 @@ def pregunta_02():
 
     """
 
-    column1 = [field for row in data for field in row[0]]
+    column1 = [row[0] for row in data]
     uniqueLetters = list(set(column1))
     result = [(letter, column1.count(letter)) for letter in uniqueLetters]
     result.sort()
@@ -101,7 +101,13 @@ def pregunta_03():
     ]
 
     """
-    return
+
+    column1 = [row[0] for row in data]
+    uniqueLetters = list(set(column1))
+    result = [(letter, sum([int(row[1]) for row in data if row[0] == letter])) for letter in uniqueLetters]
+    result.sort()
+
+    return result
 
 
 def pregunta_04():
@@ -126,7 +132,13 @@ def pregunta_04():
     ]
 
     """
-    return
+
+    months = [row[2].split("-")[1] for row in data]
+    uniqueMonths = list(set(months))
+    result = [(month, months.count(month)) for month in uniqueMonths]
+    result.sort()
+
+    return result
 
 
 def pregunta_05():
