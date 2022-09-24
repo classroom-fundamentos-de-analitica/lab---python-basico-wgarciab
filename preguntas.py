@@ -12,39 +12,10 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
-def pprint(data):
-    #
-    def get_format_string(data):
-        format_string = []
-        for i_col in range(len(data[0])):
-            lengths = [len(str(row[i_col])) for row in data]
-            max_length = max(lengths)
-            #
-            # Por ejemplo: "{:>10s}"
-            #
-            format_string.append("{:>" + str(max_length) + "s}")
-        return format_string
-
-    #
-    def print_data(format_string, data):
-        format_string = get_format_string(data)
-        for index, row in enumerate(data):
-            text = "    " if index == 0 else "{:2d}  ".format(index - 1)
-            for fmt, value in zip(format_string, row):
-                text += fmt.format(str(value)) + " "
-            if len(text) >= 106:
-                text = text[:100] + " [...]"
-            print(text)
-
-    #
-    format_string = get_format_string(data)
-    print_data(format_string, data)
-
 with open("data.csv", "r") as file:
     data = file.readlines()
 data = [row.replace("\n", "") for row in data]
 data = [row.split("\t") for row in data]
-#pprint(data[0:10])
 
 
 def pregunta_01():
@@ -350,7 +321,18 @@ def pregunta_11():
 
 
     """
-    return
+
+    column4Splitted = [row[3].split(",") for row in data]
+    listDict = [[letter, data[i_row][1]] for i_row, row in enumerate(column4Splitted) for letter in row]
+    column1 = [row[0] for row in listDict]
+    uniqueLetters = list(set(column1))
+    
+    result = {
+        letter : sum([int(row[1]) for row in listDict if row[0] == letter]) 
+        for letter in sorted(uniqueLetters)
+    }
+
+    return result
 
 
 def pregunta_12():
@@ -368,4 +350,16 @@ def pregunta_12():
     }
 
     """
-    return
+
+    column5Splitted = [row[4].split(",") for row in data]
+    column5Values = [[item.split(":")[1] for item in row] for row in column5Splitted]
+    listDict = [[data[i_row][0], number] for i_row, row in enumerate(column5Values) for number in row]
+    column1 = [row[0] for row in listDict]
+    uniqueLetters = list(set(column1))
+
+    result = {
+        letter : sum([int(row[1]) for row in listDict if row[0] == letter]) 
+        for letter in sorted(uniqueLetters)
+    }
+
+    return result
