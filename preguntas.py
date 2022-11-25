@@ -12,6 +12,11 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
+with open("data.csv", "r") as file:
+    data = file.readlines()
+data = [row.replace("\n", "") for row in data]
+data = [row.split("\t") for row in data]
+
 
 def pregunta_01():
     """
@@ -21,7 +26,11 @@ def pregunta_01():
     214
 
     """
-    return
+
+    column2 = [int(row[1]) for row in data]
+    result = sum(column2)
+    
+    return result
 
 
 def pregunta_02():
@@ -39,7 +48,13 @@ def pregunta_02():
     ]
 
     """
-    return
+
+    column1 = [row[0] for row in data]
+    uniqueLetters = list(set(column1))
+    result = [(letter, column1.count(letter)) for letter in uniqueLetters]
+    result.sort()
+    
+    return result
 
 
 def pregunta_03():
@@ -57,7 +72,13 @@ def pregunta_03():
     ]
 
     """
-    return
+
+    column1 = [row[0] for row in data]
+    uniqueLetters = list(set(column1))
+    result = [(letter, sum([int(row[1]) for row in data if row[0] == letter])) for letter in uniqueLetters]
+    result.sort()
+
+    return result
 
 
 def pregunta_04():
@@ -82,7 +103,13 @@ def pregunta_04():
     ]
 
     """
-    return
+
+    months = [row[2].split("-")[1] for row in data]
+    uniqueMonths = list(set(months))
+    result = [(month, months.count(month)) for month in uniqueMonths]
+    result.sort()
+
+    return result
 
 
 def pregunta_05():
@@ -100,7 +127,18 @@ def pregunta_05():
     ]
 
     """
-    return
+
+    column1 = [row[0] for row in data]
+    uniqueLetters = list(set(column1))
+    result = [
+        (letter, 
+        max([int(row[1]) for row in data if row[0] == letter]), 
+        min([int(row[1]) for row in data if row[0] == letter])) 
+        for letter in uniqueLetters
+        ]
+    result.sort()
+
+    return result
 
 
 def pregunta_06():
@@ -125,7 +163,22 @@ def pregunta_06():
     ]
 
     """
-    return
+
+    column5Splitted = [row[4].split(",") for row in data]
+    flatList = [item for sublist in column5Splitted for item in sublist]
+    listDict = [row.split(":") for row in flatList]
+    keys = [row[0] for row in listDict]
+    uniqueKeys = list(set(keys))
+
+    result = [
+        (key, 
+        min([int(row[1]) for row in listDict if row[0] == key]), 
+        max([int(row[1]) for row in listDict if row[0] == key])) 
+        for key in uniqueKeys
+        ]
+    result.sort()
+
+    return result
 
 
 def pregunta_07():
@@ -149,7 +202,13 @@ def pregunta_07():
     ]
 
     """
-    return
+
+    column2 = [int(row[1]) for row in data]
+    uniqueNumbers = list(set(column2))
+    result = [(number, [row[0] for row in data if int(row[1]) == number]) for number in uniqueNumbers]
+    result.sort()
+
+    return result
 
 
 def pregunta_08():
@@ -174,7 +233,13 @@ def pregunta_08():
     ]
 
     """
-    return
+
+    column2 = [int(row[1]) for row in data]
+    uniqueNumbers = list(set(column2))
+    result = [(number, sorted(list(set([row[0] for row in data if int(row[1]) == number])))) for number in uniqueNumbers]
+    result.sort()
+
+    return result
 
 
 def pregunta_09():
@@ -197,7 +262,16 @@ def pregunta_09():
     }
 
     """
-    return
+
+    column5Splitted = [row[4].split(",") for row in data]
+    flatList = [item for sublist in column5Splitted for item in sublist]
+    listDict = [row.split(":") for row in flatList]
+    keys = [row[0] for row in listDict]
+    uniqueKeys = list(set(keys))
+
+    result = {key : keys.count(key) for key in sorted(uniqueKeys)}
+
+    return result
 
 
 def pregunta_10():
@@ -218,7 +292,15 @@ def pregunta_10():
 
 
     """
-    return
+
+    result = [
+        (row[0], 
+        len(row[3].split(",")), 
+        len(row[4].split(","))) 
+        for row in data
+    ]
+
+    return result
 
 
 def pregunta_11():
@@ -239,7 +321,18 @@ def pregunta_11():
 
 
     """
-    return
+
+    column4Splitted = [row[3].split(",") for row in data]
+    listDict = [[letter, data[i_row][1]] for i_row, row in enumerate(column4Splitted) for letter in row]
+    column1 = [row[0] for row in listDict]
+    uniqueLetters = list(set(column1))
+    
+    result = {
+        letter : sum([int(row[1]) for row in listDict if row[0] == letter]) 
+        for letter in sorted(uniqueLetters)
+    }
+
+    return result
 
 
 def pregunta_12():
@@ -257,4 +350,16 @@ def pregunta_12():
     }
 
     """
-    return
+
+    column5Splitted = [row[4].split(",") for row in data]
+    column5Values = [[item.split(":")[1] for item in row] for row in column5Splitted]
+    listDict = [[data[i_row][0], number] for i_row, row in enumerate(column5Values) for number in row]
+    column1 = [row[0] for row in listDict]
+    uniqueLetters = list(set(column1))
+
+    result = {
+        letter : sum([int(row[1]) for row in listDict if row[0] == letter]) 
+        for letter in sorted(uniqueLetters)
+    }
+
+    return result
